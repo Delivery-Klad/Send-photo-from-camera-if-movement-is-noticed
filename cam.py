@@ -24,11 +24,6 @@ acceptable_value_min = 0
 acceptable_value_max = 0
 start = True
 
-msg = MIMEMultipart()
-msg['Subject'] = title
-msg['From'] = login2
-body = text
-
 cam = cv2.VideoCapture(0)
 time.sleep(10)
 
