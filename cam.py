@@ -15,7 +15,6 @@ target = "target email"  # целевая почта для отправки
 title = "message title"  # тема сообщения
 text = "message text"  # текст сообщения
 NormalState = 'NormalState.jpg'
-UnNormalState = 'UnNormalState.jpg'
 msg = MIMEMultipart()
 msg['Subject'] = title
 msg['From'] = login
@@ -38,8 +37,8 @@ while True:
     ret, frame = cam.read()
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)  # преобразование в оттенки серого (не используется)
     cv2.imshow('frame', gray)  # отображение текущего состояния
-    cv2.imwrite(UnNormalState, frame)  # сохранение текущего состояния
-    CurrentImg = cv2.imread(UnNormalState)  # текущее состояние
+    cv2.imwrite('UnNormalState.jpg', frame)  # сохранение текущего состояния
+    CurrentImg = cv2.imread('UnNormalState.jpg')  # текущее состояние
     result = cv2.matchTemplate(NormalImg, CurrentImg, cv2.TM_CCOEFF_NORMED)  # сравнение начального состояния с текущим
     y, x = np.unravel_index(result.argmax(), result.shape)
     if start:  # рассчет погрешности
@@ -47,14 +46,14 @@ while True:
         acceptable_value_max = result + 0.04  # макс. погрешность
         start = False
         print(acceptable_value_max, acceptable_value_min)
+    print(result)
     if result < acceptable_value_min or result > acceptable_value_max:  # выход за пределы допустимых значений
-        print(result)
         if can:  # отправка сообщения
             can = False
-            UnNormalState = open(UnNormalState, 'rb')
+            UnNormalState = open('UnNormalState.jpg', 'rb')
             att = MIMEApplication(UnNormalState.read(), _subtype=subtype)
             UnNormalState.close()
-            att.add_header('Content-Disposition', 'attachment', filename=UnNormalState)
+            att.add_header('Content-Disposition', 'attachment', filename='UnNormalState.jpg')
             msg.attach(att)
             msg.attach(MIMEText(body, 'plain'))
             server.login(login, password)
