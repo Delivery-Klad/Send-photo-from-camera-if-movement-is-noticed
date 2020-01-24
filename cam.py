@@ -8,11 +8,11 @@ import threading
 import cv2
 import numpy as np
 
-password = "12345qwery"  # пароль почты, с которой производится отправка
-login = "sender6547@mail.ru"  # логин почты, с которой производится отправка
+password = "*****"  # пароль почты, с которой производится отправка
+login = "*****"  # логин почты, с которой производится отправка
 url = "smtp.mail.ru"  # mail / yandex / gmail и т.д
 server = smtplib.SMTP_SSL(url, 465)
-target = "d282000@mail.ru"  # целевая почта для отправки
+target = "*****"  # целевая почта для отправки
 title = "message title"  # тема сообщения
 text = "message text"  # текст сообщения
 NormalState = 'NormalState.jpg'
